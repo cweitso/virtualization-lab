@@ -5,13 +5,13 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#define SERVER_ADDRESS "PLEASE ASSIGN"
-#define SERVER_PORT PLEASE ASSIGN
+#define SERVER_ADDRESS "127.0.0.1" // (optional): 由該指令 minikube ip 取得 => ex: 172.17.0.2 (重新啟動 or 重新創建 IP 改變)
+#define SERVER_PORT 8888 // (optional): 與 server 端口相同 service.yaml 的 nodeport => 30080
 
 int main() {
     int sock = 0, valread;
     struct sockaddr_in serv_addr;
-    char *hello = "Hello from <your student ID>";
+    char *hello = "Hello from 114062545";
     char buffer[1024] = {0};
 
     // 建立 socket
