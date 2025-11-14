@@ -3,7 +3,7 @@
 #include <linux/bpf.h>
 #include <bpf/bpf_helpers.h>
 
-char LICENSE[] SEC("license") = "Dual BSD/GPL";
+// char LICENSE[] SEC("license") = "Dual BSD/GPL";
 
 int my_pid = 0;
 
@@ -16,7 +16,7 @@ int handle_tp(void *ctx)
 		return 0;
 
 	// TODO: 把STUDENT_ID換成你的學號
-	bpf_printk("BPF triggered from PID %d by STUDENT_ID.\n", pid);
+	bpf_printk("BPF triggered from PID %d by 114062545.\n", pid);
 
 	return 0;
 }
