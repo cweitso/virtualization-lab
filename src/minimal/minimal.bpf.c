@@ -3,7 +3,7 @@
 #include <linux/bpf.h>
 #include <bpf/bpf_helpers.h>
 
-// char LICENSE[] SEC("license") = "Dual BSD/GPL";
+char LICENSE[] SEC("license") = "Dual BSD/GPL";
 
 int my_pid = 0;
 
