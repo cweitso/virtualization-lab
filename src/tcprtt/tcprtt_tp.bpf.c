@@ -31,10 +31,10 @@ int handle_set_state(struct trace_event_raw_inet_sock_set_state *ctx)
     if (ctx->newstate == TCP_ESTABLISHED &&
 		(ctx->oldstate == TCP_SYN_RECV || ctx->oldstate == TCP_SYN_SENT)) {
 	// FIXME: Look up the element with key of `sk` in the hash map `record`
-    	// u64 *prev = 
+    	u64 *prev = bpf_map_lookup_elem(&record, &sk);
 		if (prev) {
 			// FIXME: Reserve space in the ring buffer `rb` for your event `e`
-			// struct event *e = ... ;
+			struct event *e = bpf_ringbuf_reserve(&rb, sizeof(*e), 0);
 			if (e) {
 				bpf_core_read(&e->saddr, sizeof(e->saddr), &ctx->saddr); 
 				bpf_core_read(&e->daddr, sizeof(e->daddr), &ctx->daddr); 
@@ -46,17 +46,17 @@ int handle_set_state(struct trace_event_raw_inet_sock_set_state *ctx)
 				e->pid = bpf_get_current_pid_tgid() >> 32;
 				bpf_get_current_comm(&e->comm, sizeof(e->comm));
 				// FIXME: Submit your event `e` to ring buffer `rb`
-				// ...
+				bpf_ringbuf_submit(e, 0);
 			}
 		}
 	}
 
 	if (ctx->newstate == TCP_CLOSE) {
 		// FIXME: delete the element of key `sk` from hash map `record`
-		// ... ;
+		bpf_map_delete_elem(&record, &sk);
 	} else {
 		// FIXME: update the element of key `sk` from hash map `record`
-		// ... ;
+		bpf_map_update_elem(&record, &sk, &curr, BPF_ANY);
 	}
 	return 0;
 }

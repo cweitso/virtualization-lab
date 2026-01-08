@@ -22,6 +22,7 @@ int BPF_PROG(tcp_rcv, struct sock *sk)
 
     // FIXME: Reserve space in ring buffer `rb` for the event `e`
     // struct event *e = ... ;
+    struct event *e = bpf_ringbuf_reserve(&rb, sizeof(*e), 0);
     if (!e)
         return 0;
 
@@ -39,6 +40,7 @@ int BPF_PROG(tcp_rcv, struct sock *sk)
 
     // FIXME: Submit your event `e` to ring buffer `rb`
     // ...
+    bpf_ringbuf_submit(e, 0);
     return 0;
 }
 
